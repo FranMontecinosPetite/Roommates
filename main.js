@@ -7,16 +7,17 @@
         const data = await res.json();
         roommates = data.roommates;
       };
-      const getGastos = async () => {
-        const res = await fetch("http://localhost:3000/gastos");
-        const data = await res.json();
-        gastos = data.gastos;
-      };
+      
+      // const getGastos = async () => {
+      //   const res = await fetch("http://localhost:3000/gastos");
+      //   const data = await res.json();
+      //   gastos = data.gastos;
+      // };
 
       const imprimir = async () => {
         try {
           await getRoommates();
-          await getGastos();
+          // await getGastos();
           $("#roommates").html("");
           $("#roommatesSelect").html("");
           $("#roommatesSelectModal").html("");
@@ -54,8 +55,11 @@
         }
       };
 
+      /**
+       * It creates a new roommate in the database, then it prints the list of roommates.
+       */
       const nuevoRoommate = () => {
-        fetch("http://localhost:3000/roommate", { method: "POST" })
+        fetch("http://localhost:3000/roommates", { method: "POST" })
           .then((res) => res.json())
           .then(() => {
             imprimir();
