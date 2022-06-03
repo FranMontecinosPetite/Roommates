@@ -1,8 +1,14 @@
 {
-    "roommates" : [
-        {
-            "gender":"male",
-            "name":{"title":"Mr","first":"Elias","last":"Seppanen"}
-        }
-    ]
+  "roommates": [
+    {
+      "id": "394250",
+      "name": "Amalia",
+      "lastname": "Brun"
+    },
+    {
+      "id": "7db9e3",
+      "name": "Özkan",
+      "lastname": "Denkel"
+    }
+  ]
 }

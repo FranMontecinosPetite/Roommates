@@ -1,13 +1,35 @@
-const fs = require("fs");
-const app = require("express")();
-const { v4: uuidv4 } = require('uuid');
-const bp = require('body-parser')
+// 2. Capturar los errores para condicionar el código a través del manejo de excepciones.
+// Se debe considerar recalcular y actualizar las cuentas de los roommates luego de
+// este proceso.
+// 5. Devolver los códigos de estado HTTP correspondientes a cada situación
+// 6. Enviar un correo electrónico a todos los roommates cuando se registre un nuevo
+// gasto. Se recomienda agregar a la lista de correos su correo personal para verificar
+// esta funcionalidad. (Opcional)
+
+import axios from "./postRoommate.js"
+
+import fs from "fs";
+import express from 'express';
+const app = express();
+const { v4: uuidv4 } = import('uuid');
+import bp from 'body-parser';
 const port = 3000;
 
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
 
 
+// function populateSelect(){
+//     var roommatesJSON = JSON.parse(fs.readFileSync("roommates.json", "utf-8"));
+//     const selectorRoommates = document.querySelector("#roommateSelect");
+//         for (var i = 0; i < roommatesJSON.length; i++) {
+//             selectorRoommates.innerHTML = selectorRoommates.innerHTML +
+//                 '<option value="' + roommatesJSON.roommates[i]['name'] + '">' + roommatesJSON.roommates[i]['lastname'] + '</option>';
+//         }
+// }
+// populateSelect();
+
+//rutas gastos
 app.get("/gastos", (req, res) => {
     const gastosJSON = JSON.parse(fs.readFileSync("gastos.json","utf8"));
     res.send(gastosJSON, null, 2);
@@ -44,6 +66,7 @@ app.delete("/gastos", (req, res) => {
     res.send("Gasto eliminado con éxito");
 });
 
+//ruta roommates
 app.get("/roommates", (req, res) => {
     const roommatesJSON = JSON.parse(fs.readFileSync("roommates.json","utf8"));
     res.send(roommatesJSON, null, 2);
