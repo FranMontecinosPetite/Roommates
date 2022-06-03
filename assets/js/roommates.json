@@ -1,0 +1,8 @@
+{
+    "roommates" : [
+        {
+            "gender":"male",
+            "name":{"title":"Mr","first":"Elias","last":"Seppanen"}
+        }
+    ]
+}
