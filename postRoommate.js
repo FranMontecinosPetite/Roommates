@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs').promises;
 
 const obtenerRoommate = async () => {
-    const {data} = await axios.get('https://randomuser.me/api')
+    const {data} = await axios.get('https://randomuser.me/api?inc=name')
     const roommate = data.results[0]
     const user = {
         id: uuidv4().slice(30),

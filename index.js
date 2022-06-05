@@ -6,6 +6,8 @@
 // gasto. Se recomienda agregar a la lista de correos su correo personal para verificar
 // esta funcionalidad. (Opcional)
 
+//PUT GASTO NO FUNCIONA
+
 const express = require('express');
 const app = express();
 app.use(express.json())
@@ -43,6 +45,7 @@ app.get("/gasto", (req, res) => {
     res.sendFile(__dirname + "/gastos.json")
 });
 
+/* Creating a new expense and saving it to the database. */
 app.post("/gasto", async (req, res) => {
     try {
         const { roommate, descripcion, monto } = req.body;
@@ -58,18 +61,25 @@ app.post("/gasto", async (req, res) => {
 })
 
 
+/* Updating the JSON file with the new data. */
 app.put("/gasto", (req, res) => {
-    const { id, roommate, descripcion, monto } = req.body;
-    const gasto = { id, roommate, descripcion, monto };
-    const gastosJSON = JSON.parse(fs.readFileSync("gastos.json","utf8"));
-    const gastos = gastosJSON.gastos;
-    gastosJSON.gastos = gastos.map((g) =>
-        g.id === id ? gasto : g
-    );
-    fs.writeFileSync("gastos.json", JSON.stringify(gastosJSON, null, 2));
-    res.send("Gasto modificado con éxito");
+    try {
+        const { id } = req.query;
+        const { roommate, descripcion, monto } = req.body;
+        const gasto = { id, roommate, descripcion, monto };
+        const gastosJSON = JSON.parse(fs.readFileSync("gastos.json","utf8"));
+        const gastos = gastosJSON.gastos;
+        gastosJSON.gastos = gastos.map((g) =>
+            g.id === id ? gasto : g
+        );
+        fs.writeFileSync("gastos.json", JSON.stringify(gastosJSON, null, 2));
+        res.send("Gasto modificado con éxito");
+    } catch (error) {
+        res.status(500).send(error)
+    }
 });
     
+/* Deleting the expense from the database. */
 app.delete("/gasto", (req, res) => {
     const { id } = req.query;
     const gastosJSON = JSON.parse(fs.readFileSync("gastos.json","utf8"));

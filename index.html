@@ -146,7 +146,7 @@ Articulos de limpieza</textarea
     <script> 
   
     let roommates = [];
-    let gastos = [];
+    let gastos = [];  
     let gastoEditing = null;
     const getRoommates = async () => {
       const res = await fetch("http://localhost:3000/roommates");
@@ -154,6 +154,7 @@ Articulos de limpieza</textarea
       roommates = data.roommates;
     };
     
+    // <!-- Getting the gastos from the server. -->
     const getGastos = async () => {
       const res = await fetch("http://localhost:3000/gasto");
       const data = await res.json();
@@ -212,6 +213,8 @@ Articulos de limpieza</textarea
         });
     };
 
+    // <!-- A function that is called when the user clicks on the button "Agregar" in the HTML. It gets the
+    // values of the inputs and sends them to the server. -->
     const agregarGasto = async () => {
       const roommateSelected = $("#roommatesSelect").val();
       const descripcion = $("#descripcion").val();
@@ -230,6 +233,7 @@ Articulos de limpieza</textarea
       imprimir();
     };
 
+// <!-- Deleting the gasto with the id that is passed as a parameter. -->
     const deleteGasto = async (id) => {
       await fetch("http://localhost:3000/gasto?id=" + id, {
         method: "DELETE",
@@ -237,6 +241,7 @@ Articulos de limpieza</textarea
       imprimir();
     };
 
+    // <!-- Updating the gasto with the id that is passed as a parameter. -->
     const updateGasto = async () => {
       const roommateSelected = $("#roommatesSelectModal").val();
       const descripcion = $("#descripcionModal").val();
@@ -251,23 +256,25 @@ Articulos de limpieza</textarea
           descripcion,
           monto,
         }),
-      });
-      $("#exampleModal").modal("hide");
+      });      
       imprimir();
+      $("#exampleModal").modal("hide");
+ 
     };
 
+  //  <!-- A function that is called when the user clicks on the edit icon of a gasto. It gets the id of the
+  //  gasto that is going to be edited and then it gets the values of the inputs and sends them to the
+  //  server. -->
     const editGasto = (id) => {
       gastoEditing = id;
       const { roommate, descripcion, monto } = gastos.find((g) => g.id == id);
       $("#roommatesSelectModal").val(roommate);
-      $("#descripcionModal").html(descripcion);
+      $("#descripcionModal").val(descripcion);
       $("#montoModal").val(monto);
     };
 
     imprimir();
     </script>
-
-    <!-- <script src="./assets/js/index.js" type="module"></script> -->
 
     <style>
       body {

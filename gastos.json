@@ -1,34 +1,3 @@
 {
-  "gastos": [
-    {
-      "id": "e4a170",
-      "roommate": "Eira Ytterstad",
-      "descripcion": "Articulos de limpieza",
-      "monto": 15000
-    },
-    {
-      "id": "589622",
-      "roommate": "Raphaela Guillot",
-      "descripcion": "Articulos de limpieza",
-      "monto": 15000
-    },
-    {
-      "id": "c8ee15",
-      "roommate": "Raphaela Guillot",
-      "descripcion": "Articulos de limpieza",
-      "monto": 15000
-    },
-    {
-      "id": "cb5319",
-      "roommate": "Raphaela Guillot",
-      "descripcion": "Articulos de limpieza",
-      "monto": 15000
-    },
-    {
-      "id": "92616d",
-      "roommate": "Dominic Lam",
-      "descripcion": "Articulos de limpieza",
-      "monto": 4000
-    }
-  ]
+  "gastos": []
 }
