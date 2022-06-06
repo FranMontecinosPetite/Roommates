@@ -12,7 +12,10 @@ const obtenerRoommate = async () => {
     const roommate = data.results[0]
     const user = {
         id: uuidv4().slice(30),
-        nombre: `${roommate.name.first} ${roommate.name.last}` ,
+        nombre: `${roommate.name.first} ${roommate.name.last}`,
+        debe: 0,
+        recibe: 0
+
     }
     return user
 }

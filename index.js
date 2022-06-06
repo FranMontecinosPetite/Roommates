@@ -6,7 +6,8 @@
 // gasto. Se recomienda agregar a la lista de correos su correo personal para verificar
 // esta funcionalidad. (Opcional)
 
-//PUT GASTO NO FUNCIONA
+//CORREO SE MANDA SOLO CON EL PRIMER GASTO
+
 
 const express = require('express');
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json())
 const fs = require("fs");
 const { v4: uuidv4 } = require('uuid');
 const { obtenerRoommate, guardarRoommate } = require("./postRoommate.js");
+const sendMail = require("./correo.js")
 const port = 3000;
 
 // const send = require("./correo");
@@ -41,8 +43,12 @@ app.get("/roommates", (req, res) => {
 })
   
 /* Sending the gastos.json file to the browser. */
-app.get("/gasto", (req, res) => {
-    res.sendFile(__dirname + "/gastos.json")
+app.get("/gasto", async (req, res) => {
+    try {
+        res.sendFile(__dirname + "/gastos.json");
+    } catch (error) {
+        res.status(500).send(error)
+    }
 });
 
 /* Creating a new expense and saving it to the database. */
@@ -51,13 +57,24 @@ app.post("/gasto", async (req, res) => {
         const { roommate, descripcion, monto } = req.body;
         const gasto = { id: uuidv4().slice(30), roommate, descripcion, monto };
         const gastosJSON = JSON.parse(fs.readFileSync("gastos.json","utf8"));
+        const roommatesJSON = JSON.parse(fs.readFileSync("roommates.json","utf8"));
+        const roommates = roommatesJSON.roommates;
         const gastos = gastosJSON.gastos;
         gastos.push(gasto);
         fs.writeFileSync("gastos.json", JSON.stringify(gastosJSON, null, 2));
+       /* Updating the roommates.json file with the new data. */
+        const division = monto/roommates.length;
+        roommates.map((r) =>
+            r.nombre === roommate 
+                ? r.recibe +=(monto - division) 
+                : r.debe += division
+        );
+        fs.writeFileSync("roommates.json", JSON.stringify({roommates}, null, 2));
+        sendMail('Luchito');
         res.send("Gasto agregado con éxito",);
     } catch (error) {
-      res.status(500).send(error)
-    }
+        res.send(error)
+    } 
 })
 
 
@@ -69,6 +86,7 @@ app.put("/gasto", (req, res) => {
         const gasto = { id, roommate, descripcion, monto };
         const gastosJSON = JSON.parse(fs.readFileSync("gastos.json","utf8"));
         const gastos = gastosJSON.gastos;
+       /* Replacing the old expense with the new one. */
         gastosJSON.gastos = gastos.map((g) =>
             g.id === id ? gasto : g
         );
