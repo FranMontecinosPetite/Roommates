@@ -1,5 +1,22 @@
 {
   "roommates": [
-   
+    {
+      "id": "bc4d1e",
+      "nombre": "Luna Leroux",
+      "debe": 0,
+      "recibe": 0
+    },
+    {
+      "id": "aef622",
+      "nombre": "Jean Grant",
+      "debe": 0,
+      "recibe": 0
+    },
+    {
+      "id": "b67aad",
+      "nombre": "Afet Erbay",
+      "debe": 0,
+      "recibe": 0
+    }
   ]
 }
